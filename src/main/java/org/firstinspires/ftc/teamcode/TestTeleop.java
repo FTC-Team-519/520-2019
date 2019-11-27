@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -40,48 +41,67 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "TestTeleop", group = "Testing")
 public class TestTeleop extends OpMode {
 
-  private ElapsedTime runtime = new ElapsedTime();
+    private ElapsedTime runtime = new ElapsedTime();
 
-  private DcMotor frontLeft;
-  private DcMotor backLeft;
-  private DcMotor frontRight;
-  private DcMotor backRight;
+    private DcMotor frontLeft;
+    private DcMotor backLeft;
+    private DcMotor frontRight;
+    private DcMotor backRight;
 
-  @Override
-  public void init() {
-    telemetry.addData("Status", "Initialized");
+    private Gamepad driver;
+    private Gamepad gunner;
 
-    frontLeft = hardwareMap.dcMotor.get("front_left");
-    backLeft = hardwareMap.dcMotor.get("back_left");
-    frontRight = hardwareMap.dcMotor.get("front_right");
-    backRight = hardwareMap.dcMotor.get("back_right");
+    private float x;
+    private float y;
+    private float z;
+
+    @Override
+    public void init() {
+        telemetry.addData("Status", "Initialized");
+
+        frontLeft = hardwareMap.dcMotor.get("front_left");
+        backLeft = hardwareMap.dcMotor.get("back_left");
+        frontRight = hardwareMap.dcMotor.get("front_right");
+        backRight = hardwareMap.dcMotor.get("back_right");
+
+        driver = gamepad1;
+        gunner = gamepad2;
 
 
-  }
+    }
 
-  /*
+    /*
      * Code to run when the op mode is first enabled goes here
      * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
      */
-  @Override
-  public void init_loop() {
-  }
+    @Override
+    public void init_loop() {
+    }
 
-  /*
-   * This method will be called ONCE when start is pressed
-   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
-   */
-  @Override
-  public void start() {
-    runtime.reset();
-  }
+    /*
+     * This method will be called ONCE when start is pressed
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
+     */
+    @Override
+    public void start() {
+        runtime.reset();
+    }
 
-  /*
-   * This method will be called repeatedly in a loop
-   * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
-   */
-  @Override
-  public void loop() {
-    telemetry.addData("Status", "Run Time: " + runtime.toString());
-  }
+    /*
+     * This method will be called repeatedly in a loop
+     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
+     */
+    @Override
+    public void loop() {
+        telemetry.addData("Status", "Run Time: " + runtime.toString());
+
+        x = driver.left_stick_x;
+        y = -driver.left_stick_y;
+        z = driver.right_stick_x;
+
+        frontRight.setPower(y - x - z);
+        frontLeft.setPower(y + x + z);
+        backRight.setPower(y + x - z);
+        backLeft.setPower(y - x + z);
+    }
 }
