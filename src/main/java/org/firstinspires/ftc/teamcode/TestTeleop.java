@@ -33,6 +33,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Gamepad;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
@@ -41,12 +42,25 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp(name = "TestTeleop", group = "Testing")
 public class TestTeleop extends OpMode {
 
+    private static final double GRABBER_OPENED = 0.4;
+    private static final double GRABBER_CLOSED = 0.6;
+
+    private static final double FOUNDATION_GRABBER_DOWN = 0.6;
+    private static final double FOUNDATION_GRABBER_UP = 0.5;
+
     private ElapsedTime runtime = new ElapsedTime();
 
     private DcMotor frontLeft;
     private DcMotor backLeft;
     private DcMotor frontRight;
     private DcMotor backRight;
+    private DcMotor lift;
+    private DcMotor rightIntake;
+    private DcMotor leftIntake;
+
+    private Servo grabber;
+    private Servo autonomousBlockGrabber;
+    private Servo foundationGrabber;
 
     private Gamepad driver;
     private Gamepad gunner;
@@ -63,6 +77,18 @@ public class TestTeleop extends OpMode {
         backLeft = hardwareMap.dcMotor.get("back_left");
         frontRight = hardwareMap.dcMotor.get("front_right");
         backRight = hardwareMap.dcMotor.get("back_right");
+
+        grabber = hardwareMap.servo.get("grabber");
+        autonomousBlockGrabber = hardwareMap.servo.get("autonomous_block_grabber");
+        foundationGrabber = hardwareMap.servo.get("foundation_grabber");
+
+        lift = hardwareMap.dcMotor.get("lift");
+        rightIntake = hardwareMap.dcMotor.get("right_intake");
+        leftIntake = hardwareMap.dcMotor.get("left_intake");
+
+        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        leftIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         driver = gamepad1;
         gunner = gamepad2;
@@ -103,5 +129,27 @@ public class TestTeleop extends OpMode {
         frontLeft.setPower(y + x + z);
         backRight.setPower(y + x - z);
         backLeft.setPower(y - x + z);
+
+        lift.setPower(gunner.left_stick_y);
+
+        if (gunner.right_bumper) {
+            leftIntake.setPower(-0.5);
+            rightIntake.setPower(0.5);
+        } else if (gunner.left_bumper) {
+            leftIntake.setPower(0.5);
+            rightIntake.setPower(-0.5);
+        } else {
+            leftIntake.setPower(0);
+            rightIntake.setPower(0);
+        }
+
+        if (gunner.a) {
+            grabber.setPosition(GRABBER_OPENED);
+        } else if (gunner.b) {
+            grabber.setPosition(GRABBER_CLOSED);
+        }
+
+
+
     }
 }
