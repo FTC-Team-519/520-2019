@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -39,14 +40,21 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * Demonstrates empty OpMode
  */
-@TeleOp(name = "TestTeleop", group = "Testing")
+@TeleOp(name = "TestTeleop2019", group = "Testing")
 public class TestTeleop extends OpMode {
 
-    private static final double GRABBER_OPENED = 0.4;
-    private static final double GRABBER_CLOSED = 0.6;
+    private static final double INTERIOR_GRABBER_OPENED = 0.55;
+    private static final double INTERIOR_GRABBER_CLOSED = 0.45;
 
     private static final double FOUNDATION_GRABBER_DOWN = 0.6;
     private static final double FOUNDATION_GRABBER_UP = 0.5;
+
+    private static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
+    private static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
+    private static final double BACK_EXTERIOR_GRABBER_UP = 0.4;
+    private static final double BACK_EXTERIOR_GRABBER_DOWN = 0.6;
+
+
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -58,8 +66,9 @@ public class TestTeleop extends OpMode {
     private DcMotor rightIntake;
     private DcMotor leftIntake;
 
-    private Servo grabber;
-    private Servo autonomousBlockGrabber;
+    private Servo interiorGrabber;
+    private Servo frontExteriorGrabber;
+    private Servo backExteriorGrabber;
     private Servo foundationGrabber;
 
     private Gamepad driver;
@@ -78,8 +87,15 @@ public class TestTeleop extends OpMode {
         frontRight = hardwareMap.dcMotor.get("front_right");
         backRight = hardwareMap.dcMotor.get("back_right");
 
-        grabber = hardwareMap.servo.get("grabber");
-        autonomousBlockGrabber = hardwareMap.servo.get("autonomous_block_grabber");
+        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        interiorGrabber = hardwareMap.servo.get("interior_grabber");
+
+
+
+        frontExteriorGrabber = hardwareMap.servo.get("front_exterior_grabber");
+        backExteriorGrabber = hardwareMap.servo.get("back_exterior_grabber");
         foundationGrabber = hardwareMap.servo.get("foundation_grabber");
 
         lift = hardwareMap.dcMotor.get("lift");
@@ -121,9 +137,13 @@ public class TestTeleop extends OpMode {
     public void loop() {
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-        x = driver.left_stick_x;
-        y = -driver.left_stick_y;
-        z = driver.right_stick_x;
+//        x = driver.left_stick_x;
+//        y = -driver.left_stick_y;
+//        z = driver.right_stick_x;
+        x = shapeInput(driver.left_stick_x);
+        y = shapeInput(-driver.left_stick_y);
+        z = shapeInput(driver.right_stick_x);
+
 
         frontRight.setPower(y - x - z);
         frontLeft.setPower(y + x + z);
@@ -133,23 +153,52 @@ public class TestTeleop extends OpMode {
         lift.setPower(gunner.left_stick_y);
 
         if (gunner.right_bumper) {
-            leftIntake.setPower(-0.5);
-            rightIntake.setPower(0.5);
+            leftIntake.setPower(0.75);
+            rightIntake.setPower(0.75);
         } else if (gunner.left_bumper) {
-            leftIntake.setPower(0.5);
-            rightIntake.setPower(-0.5);
+            leftIntake.setPower(-0.75);
+            rightIntake.setPower(-0.75);
         } else {
             leftIntake.setPower(0);
             rightIntake.setPower(0);
         }
 
         if (gunner.a) {
-            grabber.setPosition(GRABBER_OPENED);
+            interiorGrabber.setPosition(INTERIOR_GRABBER_OPENED);
         } else if (gunner.b) {
-            grabber.setPosition(GRABBER_CLOSED);
+            interiorGrabber.setPosition(INTERIOR_GRABBER_CLOSED);
         }
 
+        if (driver.left_bumper) {
+            foundationGrabber.setPosition(FOUNDATION_GRABBER_DOWN);
+        } else if (driver.right_bumper) {
+            foundationGrabber.setPosition(FOUNDATION_GRABBER_UP);
+        }
 
+        if (driver.b) {
+            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+        } else if (driver.a) {
+            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+        }
 
+        if(driver.x) {
+            backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
+        } else if(driver.y) {
+            backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
+
+        }
+    }
+
+    private static float shapeInput(float input) {
+        float shapedValue = 0.0f;
+        if (input != 0.0f) {
+            if (input < 0.0f) {
+                shapedValue = input * -input;
+            } else {
+                shapedValue = input * input;
+            }
+        }
+
+        return shapedValue;
     }
 }
