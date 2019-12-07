@@ -44,7 +44,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TestTeleop extends OpMode {
 
     private static final double INTERIOR_GRABBER_OPENED = 0.55;
-    private static final double INTERIOR_GRABBER_CLOSED = 0.45;
+    private static final double INTERIOR_GRABBER_CLOSED = 0.35;
 
     private static final double FOUNDATION_GRABBER_DOWN = 0.6;
     private static final double FOUNDATION_GRABBER_UP = 0.5;
@@ -150,7 +150,7 @@ public class TestTeleop extends OpMode {
         backRight.setPower(y + x - z);
         backLeft.setPower(y - x + z);
 
-        lift.setPower(gunner.left_stick_y);
+        lift.setPower(shapeInput(gunner.left_stick_y));
 
         if (gunner.right_bumper) {
             leftIntake.setPower(0.75);
