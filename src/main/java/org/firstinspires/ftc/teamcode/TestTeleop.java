@@ -46,15 +46,20 @@ public class TestTeleop extends OpMode {
     private static final double INTERIOR_GRABBER_OPENED = 0.55;
     private static final double INTERIOR_GRABBER_CLOSED = 0.35;
 
-    private static final double FOUNDATION_GRABBER_DOWN = 0.6;
-    private static final double FOUNDATION_GRABBER_UP = 0.5;
+    private static final double FOUNDATION_GRABBER_UP = 0.8;
+    private static final double FOUNDATION_GRABBER_DOWN = 0.0;
 
     private static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
     private static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
-    private static final double BACK_EXTERIOR_GRABBER_UP = 0.4;
-    private static final double BACK_EXTERIOR_GRABBER_DOWN = 0.6;
+    private static final double BACK_EXTERIOR_GRABBER_UP = 0.6;
+    private static final double BACK_EXTERIOR_GRABBER_DOWN = 0.4;
 
+    private static final float FAST_MODE_MODIFIER = 1.0f;
+    private static final float SLOW_MODE_MODIFIER = 0.5f;
 
+    private float driveSpeedModifier;
+
+    private boolean flipOrientation;
 
     private ElapsedTime runtime = new ElapsedTime();
 
@@ -92,8 +97,6 @@ public class TestTeleop extends OpMode {
 
         interiorGrabber = hardwareMap.servo.get("interior_grabber");
 
-
-
         frontExteriorGrabber = hardwareMap.servo.get("front_exterior_grabber");
         backExteriorGrabber = hardwareMap.servo.get("back_exterior_grabber");
         foundationGrabber = hardwareMap.servo.get("foundation_grabber");
@@ -105,11 +108,17 @@ public class TestTeleop extends OpMode {
         lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         leftIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         driver = gamepad1;
         gunner = gamepad2;
 
+        driveSpeedModifier = SLOW_MODE_MODIFIER;
 
+        flipOrientation = false;
     }
 
     /*
@@ -140,24 +149,29 @@ public class TestTeleop extends OpMode {
 //        x = driver.left_stick_x;
 //        y = -driver.left_stick_y;
 //        z = driver.right_stick_x;
-        x = shapeInput(driver.left_stick_x);
-        y = shapeInput(-driver.left_stick_y);
-        z = shapeInput(driver.right_stick_x);
+        x = shapeInput(driver.left_stick_x) * driveSpeedModifier;
+        y = shapeInput(-driver.left_stick_y) * driveSpeedModifier;
+        z = shapeInput(driver.right_stick_x) * driveSpeedModifier;
 
+        if (flipOrientation) {
+            x = -x;
+            y = -y;
+        }
 
         frontRight.setPower(y - x - z);
         frontLeft.setPower(y + x + z);
         backRight.setPower(y + x - z);
         backLeft.setPower(y - x + z);
 
-        lift.setPower(shapeInput(gunner.left_stick_y));
+        lift.setPower(shapeInput(gunner.left_stick_y)/2.0);
 
-        if (gunner.right_bumper) {
+        if (gunner.left_bumper) {
             leftIntake.setPower(0.75);
             rightIntake.setPower(0.75);
-        } else if (gunner.left_bumper) {
-            leftIntake.setPower(-0.75);
-            rightIntake.setPower(-0.75);
+        } else if (gunner.right_bumper) {
+            //This is inwards intake
+            leftIntake.setPower(-0.90);
+            rightIntake.setPower(-0.90);
         } else {
             leftIntake.setPower(0);
             rightIntake.setPower(0);
@@ -169,24 +183,40 @@ public class TestTeleop extends OpMode {
             interiorGrabber.setPosition(INTERIOR_GRABBER_CLOSED);
         }
 
-        if (driver.left_bumper) {
-            foundationGrabber.setPosition(FOUNDATION_GRABBER_DOWN);
-        } else if (driver.right_bumper) {
+        if (driver.dpad_up) {
             foundationGrabber.setPosition(FOUNDATION_GRABBER_UP);
+        } else if (driver.dpad_down) {
+            foundationGrabber.setPosition(FOUNDATION_GRABBER_DOWN);
         }
 
-        if (driver.b) {
+        if (driver.x) {
             frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
-        } else if (driver.a) {
+            backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
+        } else if (driver.b) {
             frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+            backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
         }
 
+        if (driver.right_bumper) {
+            driveSpeedModifier = FAST_MODE_MODIFIER;
+        } else if (driver.left_bumper) {
+            driveSpeedModifier = SLOW_MODE_MODIFIER;
+        }
+
+        if (driver.a && !driver.start) {
+            flipOrientation = true;
+        } else if (driver.y) {
+            flipOrientation = false;
+        }
+
+        /*
         if(driver.x) {
             backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
         } else if(driver.y) {
             backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
 
         }
+        */
     }
 
     private static float shapeInput(float input) {
