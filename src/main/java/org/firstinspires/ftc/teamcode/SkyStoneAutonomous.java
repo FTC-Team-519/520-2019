@@ -15,7 +15,6 @@ public class SkyStoneAutonomous extends BaseAuto {
 
 
 
-
     @Override
     public void init() {
         super.init();
