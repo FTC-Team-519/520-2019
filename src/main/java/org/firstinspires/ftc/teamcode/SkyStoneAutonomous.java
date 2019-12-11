@@ -11,11 +11,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 
 @Autonomous(name = "SkyStoneAutonomous", group = "Testing")
-public class SkyStoneAutonomous extends OpMode {
+public class SkyStoneAutonomous extends BaseAuto {
+
 
 
     @Override
     public void init() {
+        super.init();
+
+
 
     }
 
@@ -24,10 +28,22 @@ public class SkyStoneAutonomous extends OpMode {
 
     }
 
-
+    @Override
+    public void start() {
+        backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
+        frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+        foundationGrabber.setPosition(FOUNDATION_GRABBER_UP);
+    }
 
     @Override
     public void loop() {
+        switch (stepCounter.getStep()) {
+
+            case 0:
+
+                break;
+        }
+
 
     }
 }

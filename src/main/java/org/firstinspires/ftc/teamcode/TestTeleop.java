@@ -46,13 +46,13 @@ public class TestTeleop extends OpMode {
     private static final double INTERIOR_GRABBER_OPENED = 0.55;
     private static final double INTERIOR_GRABBER_CLOSED = 0.35;
 
-    private static final double FOUNDATION_GRABBER_UP = 0.8;
-    private static final double FOUNDATION_GRABBER_DOWN = 0.0;
+    private static final double FOUNDATION_GRABBER_UP = 0.15;
+    private static final double FOUNDATION_GRABBER_DOWN = 0.80;
 
     private static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
-    private static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
+    private static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.8;
     private static final double BACK_EXTERIOR_GRABBER_UP = 0.6;
-    private static final double BACK_EXTERIOR_GRABBER_DOWN = 0.4;
+    private static final double BACK_EXTERIOR_GRABBER_DOWN = 0.2;
 
     private static final float FAST_MODE_MODIFIER = 1.0f;
     private static final float SLOW_MODE_MODIFIER = 0.5f;
@@ -208,6 +208,7 @@ public class TestTeleop extends OpMode {
         } else if (driver.y) {
             flipOrientation = false;
         }
+
 
         /*
         if(driver.x) {
