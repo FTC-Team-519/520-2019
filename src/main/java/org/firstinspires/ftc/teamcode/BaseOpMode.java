@@ -44,8 +44,8 @@ public abstract class BaseOpMode extends OpMode {
     public static final double INTERIOR_GRABBER_OPENED = 0.55;
     public static final double INTERIOR_GRABBER_CLOSED = 0.35;
 
-    public static final double FOUNDATION_GRABBER_UP = 0.8;
-    public static final double FOUNDATION_GRABBER_DOWN = 0.0;
+    public static final double FOUNDATION_GRABBER_UP = 1.0;
+    public static final double FOUNDATION_GRABBER_DOWN = 0.4;
 
     public static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
     public static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
@@ -109,6 +109,16 @@ public abstract class BaseOpMode extends OpMode {
         super.start();
 
         runtime.reset();
+    }
+
+    // y - forward
+    // x - sideways
+    // z - rotate
+    public void setDrivePowers(double x, double y, double z) {
+        frontRight.setPower(y - x - z);
+        frontLeft.setPower(y + x + z);
+        backRight.setPower(y + x - z);
+        backLeft.setPower(y - x + z);
     }
 
 }

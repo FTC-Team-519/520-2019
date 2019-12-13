@@ -29,13 +29,7 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Demonstrates empty OpMode
@@ -85,10 +79,7 @@ public class BaseTeleop extends BaseOpMode {
             y = -y;
         }
 
-        frontRight.setPower(y - x - z);
-        frontLeft.setPower(y + x + z);
-        backRight.setPower(y + x - z);
-        backLeft.setPower(y - x + z);
+        setDrivePowers(x, y, z);
 
         lift.setPower(shapeInput(gunner.left_stick_y)/2.0);
 
@@ -137,6 +128,7 @@ public class BaseTeleop extends BaseOpMode {
         }
 
     }
+
 
     public static float shapeInput(float input) {
         float shapedValue = 0.0f;

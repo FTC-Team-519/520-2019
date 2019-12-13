@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class BaseAuto extends BaseOpMode {
 
-    private ElapsedTime elapsedTime;
+    protected ElapsedTime elapsedTime;
 
     protected StepCounter stepCounter;
 
@@ -64,7 +64,7 @@ public class BaseAuto extends BaseOpMode {
         super.init();
 
         elapsedTime = new ElapsedTime();
-        stepCounter = new StepCounter(0, elapsedTime);
+        stepCounter = new StepCounter(0, elapsedTime, telemetry);
     }
 
     @Override
