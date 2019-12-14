@@ -44,13 +44,13 @@ public abstract class BaseOpMode extends OpMode {
     public static final double INTERIOR_GRABBER_OPENED = 0.55;
     public static final double INTERIOR_GRABBER_CLOSED = 0.35;
 
-    public static final double FOUNDATION_GRABBER_UP = 1.0;
-    public static final double FOUNDATION_GRABBER_DOWN = 0.4;
+    public static final double  FOUNDATION_GRABBER_DOWN = 0.88;
+    public static final double FOUNDATION_GRABBER_UP = 0.06;
 
     public static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
     public static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
-    public static final double BACK_EXTERIOR_GRABBER_UP = 0.6;
-    public static final double BACK_EXTERIOR_GRABBER_DOWN = 0.4;
+    public static final double BACK_EXTERIOR_GRABBER_UP = 0.4;
+    public static final double BACK_EXTERIOR_GRABBER_DOWN = 0.8;
 
     protected ElapsedTime runtime = new ElapsedTime();
 
@@ -82,7 +82,9 @@ public abstract class BaseOpMode extends OpMode {
         interiorGrabber = hardwareMap.servo.get("interior_grabber");
 
         frontExteriorGrabber = hardwareMap.servo.get("front_exterior_grabber");
+        frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
         backExteriorGrabber = hardwareMap.servo.get("back_exterior_grabber");
+        backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
         foundationGrabber = hardwareMap.servo.get("foundation_grabber");
 
         lift = hardwareMap.dcMotor.get("lift");

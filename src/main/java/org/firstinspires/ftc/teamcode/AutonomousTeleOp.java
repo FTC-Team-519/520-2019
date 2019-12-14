@@ -29,91 +29,43 @@
 
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import android.content.Context;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+
+import java.io.FileOutputStream;
 
 /**
  * Demonstrates empty OpMode
  */
 
-@Disabled()
-public class TestTeleop extends OpMode {
+public class AutonomousTeleOp extends BaseOpMode {
 
-    private static final double INTERIOR_GRABBER_OPENED = 0.55;
-    private static final double INTERIOR_GRABBER_CLOSED = 0.35;
+    public static final float FAST_MODE_MODIFIER = 1.0f;
+    public static final float SLOW_MODE_MODIFIER = 0.5f;
 
-    private static final double FOUNDATION_GRABBER_UP = 0.15;
-    private static final double FOUNDATION_GRABBER_DOWN = 0.80;
+    protected float driveSpeedModifier;
 
-    private static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
-    private static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.8;
-    private static final double BACK_EXTERIOR_GRABBER_UP = 0.6;
-    private static final double BACK_EXTERIOR_GRABBER_DOWN = 0.2;
+    protected boolean flipOrientation;
 
-    private static final float FAST_MODE_MODIFIER = 1.0f;
-    private static final float SLOW_MODE_MODIFIER = 0.5f;
+    protected Gamepad driver;
+    protected Gamepad gunner;
 
-    private float driveSpeedModifier;
+    protected float x;
+    protected float y;
+    protected float z;
 
-    private boolean flipOrientation;
+    private FileOutputStream outputStream;
+    private BlackBox.Recorder recorder;
 
-    private ElapsedTime runtime = new ElapsedTime();
-
-    private DcMotor frontLeft;
-    private DcMotor backLeft;
-    private DcMotor frontRight;
-    private DcMotor backRight;
-    private DcMotor lift;
-    private DcMotor rightIntake;
-    private DcMotor leftIntake;
-
-    private Servo interiorGrabber;
-    private Servo frontExteriorGrabber;
-    private Servo backExteriorGrabber;
-    private Servo foundationGrabber;
-
-    private Gamepad driver;
-    private Gamepad gunner;
-
-    private float x;
-    private float y;
-    private float z;
-
+    private String recordingName;
+    public AutonomousTeleOp(String recordingName) {
+        this.recordingName = recordingName;
+    }
     @Override
     public void init() {
-        telemetry.addData("Status", "Initialized");
-
-        frontLeft = hardwareMap.dcMotor.get("front_left");
-        backLeft = hardwareMap.dcMotor.get("back_left");
-        frontRight = hardwareMap.dcMotor.get("front_right");
-        backRight = hardwareMap.dcMotor.get("back_right");
-
-        frontLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-        backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        interiorGrabber = hardwareMap.servo.get("interior_grabber");
-
-        frontExteriorGrabber = hardwareMap.servo.get("front_exterior_grabber");
-        backExteriorGrabber = hardwareMap.servo.get("back_exterior_grabber");
-        foundationGrabber = hardwareMap.servo.get("foundation_grabber");
-
-        lift = hardwareMap.dcMotor.get("lift");
-        rightIntake = hardwareMap.dcMotor.get("right_intake");
-        leftIntake = hardwareMap.dcMotor.get("left_intake");
-
-        lift.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        rightIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        leftIntake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        frontRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backLeft.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-        backRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        super.init();
 
         driver = gamepad1;
         gunner = gamepad2;
@@ -121,23 +73,20 @@ public class TestTeleop extends OpMode {
         driveSpeedModifier = SLOW_MODE_MODIFIER;
 
         flipOrientation = false;
-    }
 
-    /*
-     * Code to run when the op mode is first enabled goes here
-     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
-     */
-    @Override
-    public void init_loop() {
-    }
-
-    /*
-     * This method will be called ONCE when start is pressed
-     * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#loop()
-     */
-    @Override
-    public void start() {
-        runtime.reset();
+        // Attempt to initialize
+        try {
+            // Open a file named "recordedTeleop" in the app's folder.
+            outputStream = hardwareMap.appContext.openFileOutput(recordingName,
+                    Context.MODE_PRIVATE);
+            //File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+            //outputStream = new FileOutputStream(new File(path, recordingName));
+            // Setup a hardware recorder.
+            recorder = new BlackBox.Recorder(hardwareMap, outputStream);
+        } catch (Exception e) {
+            e.printStackTrace();
+            requestOpModeStop();
+        }
     }
 
     /*
@@ -148,9 +97,6 @@ public class TestTeleop extends OpMode {
     public void loop() {
         telemetry.addData("Status", "Run Time: " + runtime.toString());
 
-//        x = driver.left_stick_x;
-//        y = -driver.left_stick_y;
-//        z = driver.right_stick_x;
         x = shapeInput(driver.left_stick_x) * driveSpeedModifier;
         y = shapeInput(-driver.left_stick_y) * driveSpeedModifier;
         z = shapeInput(driver.right_stick_x) * driveSpeedModifier;
@@ -160,10 +106,7 @@ public class TestTeleop extends OpMode {
             y = -y;
         }
 
-        frontRight.setPower(y - x - z);
-        frontLeft.setPower(y + x + z);
-        backRight.setPower(y + x - z);
-        backLeft.setPower(y - x + z);
+        setDrivePowers(x, y, z);
 
         lift.setPower(shapeInput(gunner.left_stick_y)/2.0);
 
@@ -211,18 +154,10 @@ public class TestTeleop extends OpMode {
             flipOrientation = false;
         }
 
-
-        /*
-        if(driver.x) {
-            backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
-        } else if(driver.y) {
-            backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
-
-        }
-        */
     }
 
-    private static float shapeInput(float input) {
+
+    public static float shapeInput(float input) {
         float shapedValue = 0.0f;
         if (input != 0.0f) {
             if (input < 0.0f) {

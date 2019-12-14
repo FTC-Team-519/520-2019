@@ -12,6 +12,7 @@ public class StepCounter {
     public StepCounter(int start, ElapsedTime elapsedTime, Telemetry telemetry) {
         this.elapsedTime = elapsedTime;
         step = start;
+        this.telemetry = telemetry;
     }
 
     public void increment() {

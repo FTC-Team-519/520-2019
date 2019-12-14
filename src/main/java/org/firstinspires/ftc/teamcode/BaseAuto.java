@@ -4,6 +4,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class BaseAuto extends BaseOpMode {
 
+    protected boolean mirrorValues = false;
+
     protected ElapsedTime elapsedTime;
 
     protected StepCounter stepCounter;
@@ -58,6 +60,15 @@ public class BaseAuto extends BaseOpMode {
         backRight.setPower(0);
     }
 
+    @Override
+    public void setDrivePowers(double x, double y, double z) {
+        if (mirrorValues) {
+            x = -x;
+            z = -z;
+            // Y stays the same
+        }
+        super.setDrivePowers(x, y, z);
+    }
 
     @Override
     public void init() {
