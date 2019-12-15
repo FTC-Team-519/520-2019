@@ -86,7 +86,7 @@ public class RedFoundationAndPark extends BaseAuto {
                 }
                 break;
             case 12:
-                setDrivePowers(-.25,0,0);
+                setDrivePowers(-.50,-0.15,0);
                 stepCounter.increment();
                 break;
             case 13:
@@ -96,7 +96,7 @@ public class RedFoundationAndPark extends BaseAuto {
                 }
                 break;
             case 14:
-                if (elapsedTime.seconds() >= 1) {
+                if (elapsedTime.seconds() >= 10) {
                     stepCounter.increment();
                 }
                 break;

@@ -24,7 +24,7 @@ public class DriveStraightAndPark  extends BaseAuto{
                 setDrivePowers(0,.5,0);
                 break;
             case 1:
-                if (elapsedTime.seconds() >= .5) {
+                if (elapsedTime.seconds() >= 1.0) {
                     stopMoving();
                     stepCounter.increment();
                 }
