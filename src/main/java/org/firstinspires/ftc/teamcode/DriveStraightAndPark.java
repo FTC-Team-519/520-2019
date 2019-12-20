@@ -21,10 +21,10 @@ public class DriveStraightAndPark  extends BaseAuto{
     public void loop() {
         switch (stepCounter.getStep()) {
             case 0:
-                setDrivePowers(0,.5,0);
+                setDrivePowers(.5,0,0);
                 break;
             case 1:
-                if (elapsedTime.seconds() >= 1.0) {
+                if (elapsedTime.seconds() >= 0.5) {
                     stopMoving();
                     stepCounter.increment();
                 }
