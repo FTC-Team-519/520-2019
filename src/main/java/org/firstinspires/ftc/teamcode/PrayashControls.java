@@ -2,8 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "RealTeleop", group = "Testing")
-public class RealTeleop extends BaseTeleop {
+@TeleOp(name = "PrayashControls", group = "testing")
+public class PrayashControls extends BaseTeleop {
 
     @Override
     public void loop() {
@@ -22,21 +22,21 @@ public class RealTeleop extends BaseTeleop {
 
         lift.setPower(shapeInput(gunner.left_stick_y)/2.0);
 
-        if (gunner.left_bumper) {
-            leftIntake.setPower(0.75);
-            rightIntake.setPower(0.75);
-        } else if (gunner.right_bumper) {
+        if (gunner.left_trigger >= 0.5) {
+            leftIntake.setPower(0.90);
+            rightIntake.setPower(0.90);
+        } else if (gunner.right_trigger >= 0.5) {
             //This is inwards intake
-            leftIntake.setPower(-0.90);
-            rightIntake.setPower(-0.90);
+            leftIntake.setPower(-0.99);
+            rightIntake.setPower(-0.99);
         } else {
             leftIntake.setPower(0);
             rightIntake.setPower(0);
         }
 
-        if (gunner.a) {
+        if (gunner.left_bumper) {
             interiorGrabber.setPosition(INTERIOR_GRABBER_OPENED);
-        } else if (gunner.b) {
+        } else if (gunner.right_bumper) {
             interiorGrabber.setPosition(INTERIOR_GRABBER_CLOSED);
         }
 
@@ -82,5 +82,4 @@ public class RealTeleop extends BaseTeleop {
         return shapedValue;
     }
 }
-
 
