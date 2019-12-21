@@ -44,8 +44,10 @@ public abstract class BaseOpMode extends OpMode {
     public static final double INTERIOR_GRABBER_OPENED = 0.55;
     public static final double INTERIOR_GRABBER_CLOSED = 0.35;
 
-    public static final double FOUNDATION_GRABBER_DOWN = 0.88;
-    public static final double FOUNDATION_GRABBER_UP = 0.06;
+    public static final double FOUNDATION_GRABBER_RIGHT_DOWN = 0.88;
+    public static final double FOUNDATION_GRABBER_RIGHT_UP = 0.06;
+    public static final double FOUNDATION_GRABBER_LEFT_UP = 0.06;
+    public static final double FOUNDATION_GRABBER_LEFT_DOWN = 0.88;
 
     public static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
     public static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
@@ -65,7 +67,8 @@ public abstract class BaseOpMode extends OpMode {
     protected Servo interiorGrabber;
     protected Servo frontExteriorGrabber;
     protected Servo backExteriorGrabber;
-    protected Servo foundationGrabber;
+    protected Servo foundationGrabberRight;
+    protected Servo foundationGrabberLeft;
 
     @Override
     public void init() {
@@ -85,7 +88,8 @@ public abstract class BaseOpMode extends OpMode {
         frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
         backExteriorGrabber = hardwareMap.servo.get("back_exterior_grabber");
         backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
-        foundationGrabber = hardwareMap.servo.get("foundation_grabber");
+        foundationGrabberRight = hardwareMap.servo.get("foundation_grabber_right");
+        foundationGrabberLeft = hardwareMap.servo.get("foundation_grabber_left");
 
         lift = hardwareMap.dcMotor.get("lift");
         rightIntake = hardwareMap.dcMotor.get("right_intake");

@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
 @Autonomous(name = "RedFoundationAndPark", group = "Testing")
-public class RedFoundationAndPark extends BaseAuto {
+public class InsideRedFoundationAndPark extends BaseAuto {
 
     @Override
     public void init() {
@@ -89,7 +89,7 @@ public class RedFoundationAndPark extends BaseAuto {
                 }
                 break;
             case 12:
-                setDrivePowers(-.50,-0.15,0);
+                setDrivePowers(.50,-0.15,0);
                 stepCounter.increment();
                 break;
             case 13:

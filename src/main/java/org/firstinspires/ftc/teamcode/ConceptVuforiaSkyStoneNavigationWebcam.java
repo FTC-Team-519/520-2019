@@ -171,7 +171,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
 
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");
-        VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
+/*          VuforiaTrackable blueRearBridge = targetsSkyStone.get(1);
         blueRearBridge.setName("Blue Rear Bridge");
         VuforiaTrackable redRearBridge = targetsSkyStone.get(2);
         redRearBridge.setName("Red Rear Bridge");
@@ -195,7 +195,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         rear1.setName("Rear Perimeter 1");
         VuforiaTrackable rear2 = targetsSkyStone.get(12);
         rear2.setName("Rear Perimeter 2");
-
+*/
         // For convenience, gather together all the trackable objects in one easily-iterable collection */
         List<VuforiaTrackable> allTrackables = new ArrayList<VuforiaTrackable>();
         allTrackables.addAll(targetsSkyStone);
@@ -226,7 +226,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
 
         //Set the position of the bridge support targets with relation to origin (center of field)
-        blueFrontBridge.setLocation(OpenGLMatrix
+/*        blueFrontBridge.setLocation(OpenGLMatrix
                 .translation(-bridgeX, bridgeY, bridgeZ)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 0, bridgeRotY, bridgeRotZ)));
 
@@ -274,7 +274,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         rear2.setLocation(OpenGLMatrix
                 .translation(halfField, -quadField, mmTargetHeight)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, XYZ, DEGREES, 90, 0, -90)));
-
+*/
         //
         // Create a transformation matrix describing where the phone is on the robot.
         //
@@ -290,7 +290,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         // The two examples below assume that the camera is facing forward out the front of the robot.
 
         // We need to rotate the camera around it's long axis to bring the correct camera forward.
-        if (CAMERA_CHOICE == BACK) {
+      if (CAMERA_CHOICE == BACK) {
             phoneYRotate = -90;
         } else {
             phoneYRotate = 90;

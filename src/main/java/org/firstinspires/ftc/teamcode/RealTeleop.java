@@ -41,9 +41,11 @@ public class RealTeleop extends BaseTeleop {
         }
 
         if (driver.dpad_up) {
-            foundationGrabber.setPosition(FOUNDATION_GRABBER_UP);
+            foundationGrabberLeft.setPosition(FOUNDATION_GRABBER_LEFT_UP);
+            foundationGrabberRight.setPosition((FOUNDATION_GRABBER_RIGHT_UP));
         } else if (driver.dpad_down) {
-            foundationGrabber.setPosition(FOUNDATION_GRABBER_DOWN);
+            foundationGrabberLeft.setPosition(FOUNDATION_GRABBER_LEFT_DOWN);
+            foundationGrabberRight.setPosition(FOUNDATION_GRABBER_RIGHT_DOWN);
         }
 
         if (driver.x) {
