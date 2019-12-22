@@ -15,7 +15,7 @@ public abstract class TestBoardBase extends OpMode {
         elapsedTime = new ElapsedTime();
         stepCounter = new StepCounter(0, elapsedTime, telemetry);
 
-        right = hardwareMap.dcMotor.get("right_motor");
+        //right = hardwareMap.dcMotor.get("right_motor");
     }
 
     public void start() {}

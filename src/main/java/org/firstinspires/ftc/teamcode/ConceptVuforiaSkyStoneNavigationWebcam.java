@@ -134,7 +134,7 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
      */
     WebcamName webcamName = null;
 
-    private boolean targetVisible = false;
+    public boolean targetVisible = false;
     private float phoneXRotate    = 0;
     private float phoneYRotate    = 0;
     private float phoneZRotate    = 0;
@@ -163,11 +163,12 @@ public class ConceptVuforiaSkyStoneNavigationWebcam extends LinearOpMode {
         parameters.cameraName = webcamName;
 
         //  Instantiate the Vuforia engine
-        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+        this.vuforia = ClassFactory.getInstance().createVuforia(parameters);
 
         // Load the data sets for the trackable objects. These particular data
         // sets are stored in the 'assets' part of our application.
         VuforiaTrackables targetsSkyStone = this.vuforia.loadTrackablesFromAsset("Skystone");
+
 
         VuforiaTrackable stoneTarget = targetsSkyStone.get(0);
         stoneTarget.setName("Stone Target");

@@ -3,8 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 
-@Autonomous(name = "InsideRedFoundationAndPark", group = "Testing")
-public class InsideRedFoundationAndPark extends BaseAuto {
+@Autonomous(name = "SkyStoneRedFoundationAndPark", group = "Testing")
+public class SkyStoneRedFoundationAndPark extends BaseAuto {
 
     @Override
     public void init() {
@@ -89,7 +89,7 @@ public class InsideRedFoundationAndPark extends BaseAuto {
                 }
                 break;
             case 12:
-                setDrivePowers(.50,-0.15,0);
+                setDrivePowers(-.50,-0.15,0);
                 stepCounter.increment();
                 break;
             case 13:
@@ -99,16 +99,41 @@ public class InsideRedFoundationAndPark extends BaseAuto {
                 }
                 break;
             case 14:
-                if (elapsedTime.seconds() >= 10) {
+                setDrivePowers(0,0.5,0);
+                stepCounter.increment();
+                break;
+            case 15:
+                if (elapsedTime.seconds() >= 0.5) {
+                    stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 15:
+            case 16:
+                interiorGrabber.setPosition(INTERIOR_GRABBER_CLOSED);
+                stepCounter.increment();
+                break;
+            case 17:
+                if (elapsedTime.seconds() >= 0.2) {
+                    stepCounter.increment();
+                }
+                break;
+            case 18:
+                lift.setPower(0.5);
+                stepCounter.increment();
+                break;
+            case 19:
+                if (elapsedTime.seconds() >= 0.5) {
+                    lift.setPower(0);
+                    interiorGrabber.setPosition(INTERIOR_GRABBER_OPENED);
+                    stepCounter.increment();
+                }
+                break;
+            case 20:
                 setDrivePowers(0,.5,0);
                 stepCounter.increment();
                 break;
-            case 16:
-                if (elapsedTime.seconds() >= 1.2) {
+            case 21:
+                if (elapsedTime.seconds() >= 0.70) {
                     stopMoving();
                     stepCounter.increment();
                 }

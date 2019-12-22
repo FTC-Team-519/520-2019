@@ -46,8 +46,8 @@ public abstract class BaseOpMode extends OpMode {
 
     public static final double FOUNDATION_GRABBER_RIGHT_DOWN = 0.88;
     public static final double FOUNDATION_GRABBER_RIGHT_UP = 0.06;
-    public static final double FOUNDATION_GRABBER_LEFT_UP = 0.06;
-    public static final double FOUNDATION_GRABBER_LEFT_DOWN = 0.88;
+    public static final double FOUNDATION_GRABBER_LEFT_UP = 0.88;
+    public static final double FOUNDATION_GRABBER_LEFT_DOWN = 0.06;
 
     public static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
     public static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;

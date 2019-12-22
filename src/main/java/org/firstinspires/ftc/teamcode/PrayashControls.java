@@ -34,9 +34,9 @@ public class PrayashControls extends BaseTeleop {
             rightIntake.setPower(0);
         }
 
-        if (gunner.left_bumper) {
+        if (gunner.a) {
             interiorGrabber.setPosition(INTERIOR_GRABBER_OPENED);
-        } else if (gunner.right_bumper) {
+        } else if (gunner.b) {
             interiorGrabber.setPosition(INTERIOR_GRABBER_CLOSED);
         }
 
