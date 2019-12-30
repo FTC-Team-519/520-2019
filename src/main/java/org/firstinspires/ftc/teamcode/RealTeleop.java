@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "RealTeleop", group = "Testing")
 public class RealTeleop extends BaseTeleop {
@@ -67,6 +68,26 @@ public class RealTeleop extends BaseTeleop {
         } else if (driver.y) {
             flipOrientation = false;
         }
+
+        if (gunner.dpad_up) {
+            //tapeShooter.setPosition(TAPE_SHOOTER_OPEN);
+        } else {
+            //tapeShooter.setPosition(TAPE_SHOOTER_CLOSED);
+        }
+
+        if (gunner.x) {
+
+            lift.setTargetPosition(-400);
+            lift.getTargetPosition();
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift.setPower(0.25);
+            if (lift.getTargetPosition() + 5 >= lift.getCurrentPosition() ||lift.getCurrentPosition() >= lift.getTargetPosition() - 5) {
+                lift.setPower(0.0);
+            }
+        } else {
+            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        }
+        telemetry.addData("Doesn't matter", lift.getCurrentPosition());
 
     }
 

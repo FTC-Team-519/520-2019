@@ -25,7 +25,7 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
 @Autonomous(name = "RedSkyStoneSampleTest", group = "testing")
-public class RedSkyStoneSampleTest extends TestBoardBase{
+public class RedSkyStoneSampleTest extends BaseAuto{
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -131,7 +131,7 @@ public class RedSkyStoneSampleTest extends TestBoardBase{
 
         // Next, translate the camera lens to where it is on the robot.
         // In this example, it is centered (left to right), but forward of the middle of the robot, and above ground level.
-        final float CAMERA_FORWARD_DISPLACEMENT  = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
+        /*final float CAMERA_FORWARD_DISPLACEMENT  = 4.0f * mmPerInch;   // eg: Camera is 4 Inches in front of robot-center
         final float CAMERA_VERTICAL_DISPLACEMENT = 4.0f * mmPerInch;   // eg: Camera is 8 Inches above ground
         final float CAMERA_LEFT_DISPLACEMENT     = 0;     // eg: Camera is ON the robot's center line
 
@@ -139,10 +139,11 @@ public class RedSkyStoneSampleTest extends TestBoardBase{
                 .translation(CAMERA_FORWARD_DISPLACEMENT, CAMERA_LEFT_DISPLACEMENT, CAMERA_VERTICAL_DISPLACEMENT)
                 .multiplied(Orientation.getRotationMatrix(EXTRINSIC, YZX, DEGREES, phoneYRotate, phoneZRotate, phoneXRotate));
 
-        /**  Let all the trackable listeners know where the phone is.  */
+          Let all the trackable listeners know where the phone is.
         for (VuforiaTrackable trackable : allTrackables) {
             ((VuforiaTrackableDefaultListener) trackable.getListener()).setPhoneInformation(robotFromCamera, parameters.cameraDirection);
         }
+         */
     }
 
     @Override
@@ -151,7 +152,7 @@ public class RedSkyStoneSampleTest extends TestBoardBase{
         targetsSkyStone.activate();
     }
 
-
+    @Override
     public void loop() {
         targetVisible = false;
         telemetry.addLine("Hello");
@@ -174,15 +175,25 @@ public class RedSkyStoneSampleTest extends TestBoardBase{
             case 0:
                 if (targetVisible) {
                     telemetry.addData("I saw it", "it was there");
-                //    setDrivePowers(0,0,0);
-                } else if (targetVisible) {
-                 //   setDrivePowers(0,0,0);
+                    setDrivePowers(-.5,0,0);
+                    stepCounter.increment(2);
                 } else {
-                //    setDrivePowers(0,0,0);
+                    setDrivePowers(0,0.5,0);
+                    stepCounter.increment();
                 }
                 break;
             case 1:
-
+                if (elapsedTime.seconds() >= 1.00) {
+                    stopMoving();
+                    frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+                    telemetry.addLine("Didn't see it");
+                }
+                break;
+            case 2:
+                if (elapsedTime.seconds() >= 1.0) {
+                    stopMoving();
+                    telemetry.addLine("I found it");
+                }
                 break;
             default:
                 telemetry.addData("Status", "Something Went Wrong");
@@ -190,4 +201,6 @@ public class RedSkyStoneSampleTest extends TestBoardBase{
         }
         telemetry.update();
     }
+
+
 }
