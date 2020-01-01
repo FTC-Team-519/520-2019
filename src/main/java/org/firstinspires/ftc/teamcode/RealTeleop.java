@@ -2,9 +2,22 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "RealTeleop", group = "Testing")
 public class RealTeleop extends BaseTeleop {
+
+    private ElapsedTime elapsedTime;
+
+    @Override
+    public void init() {
+        elapsedTime = new ElapsedTime();
+        elapsedTime.reset();
+        elapsedTime.startTime();
+
+        super.init();
+        telemetry.addLine(String.valueOf(elapsedTime.milliseconds()));
+    }
 
     @Override
     public void loop() {
@@ -81,14 +94,22 @@ public class RealTeleop extends BaseTeleop {
             lift.getTargetPosition();
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift.setPower(0.25);
-            if (lift.getTargetPosition() + 5 >= lift.getCurrentPosition() ||lift.getCurrentPosition() >= lift.getTargetPosition() - 5) {
+            if (lift.getCurrentPosition() == lift.getTargetPosition()) {
+                lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
                 lift.setPower(0.0);
             }
-        } else {
-            lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
-        telemetry.addData("Doesn't matter", lift.getCurrentPosition());
 
+        if (gunner.y) {
+            lift.setTargetPosition(0);
+            lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            lift.setPower(0.5);
+            if (lift.getTargetPosition() == lift.getCurrentPosition()) {
+                lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+                lift.setPower(0);
+            }
+        }
+        telemetry.addLine(String.valueOf(lift.getCurrentPosition()));
     }
 
 
