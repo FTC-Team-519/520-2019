@@ -56,6 +56,12 @@ public class PrayashControls extends BaseTeleop {
             backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
         }
 
+        if (driver.dpad_left) {
+            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+        } else if (driver.dpad_right) {
+            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+        }
+
         if (driver.right_bumper) {
             driveSpeedModifier = FAST_MODE_MODIFIER;
         } else if (driver.left_bumper) {
@@ -66,6 +72,32 @@ public class PrayashControls extends BaseTeleop {
             flipOrientation = true;
         } else if (driver.y) {
             flipOrientation = false;
+        }
+
+        if (gunner.dpad_up) {
+            //tapeShooter.setPosition(TAPE_SHOOTER_OPEN);
+        } else {
+            //tapeShooter.setPosition(TAPE_SHOOTER_CLOSED);
+        }
+
+        if (gunner.dpad_down) {
+            lockAndLoad = true;
+        }
+
+        if (gunner.dpad_up) {
+            lockAndLoad = false;
+        }
+
+        if (lockAndLoad) {
+            int currentLiftPosition = lift.getCurrentPosition();
+            if (currentLiftPosition < LOCK_AND_LOAD_HIGH) {
+                lift.setPower(1.0);
+            } else if (currentLiftPosition > LOCK_AND_LOAD_LOW) {
+                lift.setPower(-0.4);
+            } else {
+                lift.setPower(0.0);
+                lockAndLoad = false;
+            }
         }
 
     }

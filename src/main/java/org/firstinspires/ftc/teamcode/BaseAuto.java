@@ -74,6 +74,12 @@ public class BaseAuto extends BaseOpMode {
     public void init() {
         super.init();
 
+        foundationGrabberLeft.setPosition(FOUNDATION_GRABBER_LEFT_UP);
+        foundationGrabberRight.setPosition(FOUNDATION_GRABBER_RIGHT_UP);
+        backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
+        frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+
+
         elapsedTime = new ElapsedTime();
         stepCounter = new StepCounter(0, elapsedTime, telemetry);
     }

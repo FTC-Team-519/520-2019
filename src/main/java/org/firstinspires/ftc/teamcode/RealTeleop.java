@@ -9,6 +9,7 @@ public class RealTeleop extends BaseTeleop {
 
     private ElapsedTime elapsedTime;
 
+
     @Override
     public void init() {
         elapsedTime = new ElapsedTime();
@@ -63,11 +64,15 @@ public class RealTeleop extends BaseTeleop {
         }
 
         if (driver.x) {
-            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
             backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
         } else if (driver.b) {
-            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
             backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
+        }
+
+        if (driver.dpad_left) {
+            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+        } else if (driver.dpad_right) {
+            frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
         }
 
         if (driver.right_bumper) {
@@ -89,6 +94,27 @@ public class RealTeleop extends BaseTeleop {
         }
 
         if (gunner.x) {
+            lockAndLoad = true;
+        }
+
+        if (gunner.y) {
+            lockAndLoad = false;
+        }
+
+        if (lockAndLoad) {
+            int currentLiftPosition = lift.getCurrentPosition();
+            if (currentLiftPosition < LOCK_AND_LOAD_HIGH) {
+                lift.setPower(1.0);
+            } else if (currentLiftPosition > LOCK_AND_LOAD_LOW) {
+                lift.setPower(-0.4);
+            } else {
+                lift.setPower(0.0);
+                lockAndLoad = false;
+            }
+        }
+
+        /*
+        if (gunner.x) {
 
             lift.setTargetPosition(-400);
             lift.getTargetPosition();
@@ -105,10 +131,12 @@ public class RealTeleop extends BaseTeleop {
             lift.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lift.setPower(0.5);
             if (lift.getTargetPosition() == lift.getCurrentPosition()) {
-                lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
                 lift.setPower(0);
             }
         }
+        */
+        //lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         telemetry.addLine(String.valueOf(lift.getCurrentPosition()));
     }
 

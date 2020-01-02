@@ -47,6 +47,9 @@ public class BaseTeleop extends BaseOpMode {
     protected Gamepad driver;
     protected Gamepad gunner;
 
+    protected boolean lockAndLoad = false;
+
+
     protected float x;
     protected float y;
     protected float z;
@@ -62,6 +65,18 @@ public class BaseTeleop extends BaseOpMode {
 
         flipOrientation = false;
     }
+
+    @Override
+    public void start() {
+        super.start();
+
+        foundationGrabberLeft.setPosition(FOUNDATION_GRABBER_LEFT_UP);
+        foundationGrabberRight.setPosition(FOUNDATION_GRABBER_RIGHT_UP);
+        backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
+        frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+
+    }
+
 
     public void loop() {}
 

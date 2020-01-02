@@ -49,10 +49,13 @@ public abstract class BaseOpMode extends OpMode {
     public static final double FOUNDATION_GRABBER_LEFT_UP = 0.88;
     public static final double FOUNDATION_GRABBER_LEFT_DOWN = 0.06;
 
-    public static final double FRONT_EXTERIOR_GRABBER_UP = 0.4;
-    public static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.6;
+    public static final double FRONT_EXTERIOR_GRABBER_UP = 0.65;
+    public static final double FRONT_EXTERIOR_GRABBER_DOWN = 0.25;
     public static final double BACK_EXTERIOR_GRABBER_UP = 0.4;
     public static final double BACK_EXTERIOR_GRABBER_DOWN = 0.8;
+
+    public static final int LOCK_AND_LOAD_HIGH = -200;
+    public static final int LOCK_AND_LOAD_LOW = -190;
 
     public static final double TAPE_SHOOTER_OPEN = 0.4;
     public static final double TAPE_SHOOTER_CLOSED = 0.6;
@@ -89,16 +92,15 @@ public abstract class BaseOpMode extends OpMode {
         interiorGrabber = hardwareMap.servo.get("interior_grabber");
 
         frontExteriorGrabber = hardwareMap.servo.get("front_exterior_grabber");
-        frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
         backExteriorGrabber = hardwareMap.servo.get("back_exterior_grabber");
-        backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
         foundationGrabberRight = hardwareMap.servo.get("foundation_grabber_right");
         foundationGrabberLeft = hardwareMap.servo.get("foundation_grabber_left");
         //tapeShooter = hardwareMap.servo.get("tape_shooter");
 
         lift = hardwareMap.dcMotor.get("lift");
-        lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //lift.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lift.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lift.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         rightIntake = hardwareMap.dcMotor.get("right_intake");
         leftIntake = hardwareMap.dcMotor.get("left_intake");
 
