@@ -83,7 +83,7 @@ public class RedFoundationAndPark extends BaseAuto {
                 stepCounter.increment();
                 break;
             case 11:
-                if (elapsedTime.seconds() >= 1.0) {
+                if (elapsedTime.seconds() >= 1.5) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -99,7 +99,7 @@ public class RedFoundationAndPark extends BaseAuto {
                 }
                 break;
             case 14:
-                if (elapsedTime.seconds() >= 10) {
+                if (elapsedTime.seconds() >= 17.0) {
                     stepCounter.increment();
                 }
                 break;

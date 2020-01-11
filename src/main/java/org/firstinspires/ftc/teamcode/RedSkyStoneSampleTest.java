@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.robotcontroller.external.samples.ConceptVuforiaSkyStoneNavigation;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.matrices.OpenGLMatrix;
@@ -20,7 +16,6 @@ import java.util.List;
 
 import static org.firstinspires.ftc.robotcore.external.navigation.AngleUnit.DEGREES;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
-import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.YZX;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
@@ -53,6 +48,9 @@ public class RedSkyStoneSampleTest extends BaseAuto{
     WebcamName webcamName = null;
 
     public boolean targetVisible = false;
+    public int targetNotSeenCount = 0;
+
+    public int skystonePosition = 3;
 
     @Override
     public void init() {
@@ -150,12 +148,12 @@ public class RedSkyStoneSampleTest extends BaseAuto{
     public void start() {
         super.start();
         targetsSkyStone.activate();
+        targetNotSeenCount = 0;
     }
 
     @Override
     public void loop() {
         targetVisible = false;
-        telemetry.addLine("Hello");
         for (VuforiaTrackable trackable : allTrackables) {
             if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
                 telemetry.addData("Visible Target", trackable.getName());
@@ -163,11 +161,11 @@ public class RedSkyStoneSampleTest extends BaseAuto{
 
                 // getUpdatedRobotLocation() will return null if no new information is available since
                 // the last time that call was made, or if the trackable is not currently visible.
-                OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
-                if (robotLocationTransform != null) {
-                    lastLocation = robotLocationTransform;
-                    telemetry.addLine("Updated last location");
-                }
+                //OpenGLMatrix robotLocationTransform = ((VuforiaTrackableDefaultListener)trackable.getListener()).getUpdatedRobotLocation();
+                //if (robotLocationTransform != null) {
+                //    lastLocation = robotLocationTransform;
+                //    telemetry.addLine("Updated last location");
+                //}
                 break;
             }
         }
@@ -175,25 +173,44 @@ public class RedSkyStoneSampleTest extends BaseAuto{
             case 0:
                 if (targetVisible) {
                     telemetry.addData("I saw it", "it was there");
-                    setDrivePowers(-.5,0,0);
-                    stepCounter.increment(2);
-                } else {
-                    setDrivePowers(0,0.5,0);
+                    skystonePosition = 1;
+                    stepCounter.set(4);
+                } else if (targetNotSeenCount > 20) {
+                    telemetry.addLine("Never seen for first position");
+                    targetNotSeenCount = 0;
                     stepCounter.increment();
+                } else {
+                    telemetry.addLine("Not seen for first position");
+                    ++targetNotSeenCount;
                 }
                 break;
             case 1:
-                if (elapsedTime.seconds() >= 1.00) {
-                    stopMoving();
-                    frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
-                    telemetry.addLine("Didn't see it");
-                }
+                setDrivePowers(0, 0.25, 0);
+                stepCounter.increment();
                 break;
             case 2:
-                if (elapsedTime.seconds() >= 1.0) {
+                if (elapsedTime.seconds() >= 0.7) {
                     stopMoving();
-                    telemetry.addLine("I found it");
+                    stepCounter.increment();
                 }
+                break;
+            case 3:
+                if (targetVisible) {
+                    telemetry.addData("I saw it", "2nd position");
+                    skystonePosition = 2;
+                    stepCounter.set(4);
+                } else if (targetNotSeenCount > 20) {
+                    telemetry.addLine("Never seen for second position");
+                    targetNotSeenCount = 0;
+                    stepCounter.increment();
+                } else {
+                    telemetry.addLine("Not seen for second position");
+                    ++targetNotSeenCount;
+                }
+                break;
+            case 4:
+                telemetry.addData("SkystonePos", "" + skystonePosition);
+                telemetry.addData("target visible", "" + targetVisible);
                 break;
             default:
                 telemetry.addData("Status", "Something Went Wrong");
