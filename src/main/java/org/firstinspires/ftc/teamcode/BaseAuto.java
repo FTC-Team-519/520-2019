@@ -46,13 +46,13 @@ public class BaseAuto extends BaseOpMode {
         backLeft.setPower(0.75*power); // .725
     }
 
-    public void strafeRight(double power) {
-        frontLeft.setPower(.9*power);//.9
-        frontRight.setPower(-.7*power);
-        backRight.setPower(.6*power);
-        backLeft.setPower(-1*power);
+    /*public void strafeRight(double power) {
+        frontLeft.setPower(-power);//.9
+        frontRight.setPower(power);
+        backRight.setPower(power);
+        backLeft.setPower(-power);
     }
-
+*/
     public void stopMoving() {
         frontRight.setPower(0);
         frontLeft.setPower(0);

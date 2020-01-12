@@ -136,4 +136,18 @@ public abstract class BaseOpMode extends OpMode {
         backLeft.setPower(y - x + z);
     }
 
+    public void strafeRight() {
+        frontLeft.setPower(0.48);
+        frontRight.setPower(-0.5);
+        backLeft.setPower(-0.5);
+        backRight.setPower(0.52);
+    }
+
+    public void strafeLeft() {
+        frontLeft.setPower(-0.52);
+        frontRight.setPower(0.48);
+        backLeft.setPower(0.48);
+        backRight.setPower(-0.52);
+
+    }
 }

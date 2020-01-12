@@ -149,6 +149,8 @@ public class RedSkyStoneSampleTest extends BaseAuto{
         super.start();
         targetsSkyStone.activate();
         targetNotSeenCount = 0;
+        stepCounter.set(0);
+        //stepCounter.set(-10);
     }
 
     @Override
@@ -174,8 +176,8 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 if (targetVisible) {
                     telemetry.addData("I saw it", "it was there");
                     skystonePosition = 1;
-                    stepCounter.set(4);
-                } else if (targetNotSeenCount > 20) {
+                    stepCounter.set(6);
+                } else if (elapsedTime.seconds() >= 2.0) {
                     telemetry.addLine("Never seen for first position");
                     targetNotSeenCount = 0;
                     stepCounter.increment();
@@ -186,10 +188,12 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 break;
             case 1:
                 setDrivePowers(0, 0.25, 0);
+                telemetry.addData("Moving to", "position 2");
                 stepCounter.increment();
                 break;
             case 2:
                 if (elapsedTime.seconds() >= 0.7) {
+                    telemetry.addData("Moving to", "position 2");
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -198,8 +202,8 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 if (targetVisible) {
                     telemetry.addData("I saw it", "2nd position");
                     skystonePosition = 2;
-                    stepCounter.set(4);
-                } else if (targetNotSeenCount > 20) {
+                    stepCounter.set(6);
+                } else if (elapsedTime.seconds() >= 2.0) {
                     telemetry.addLine("Never seen for second position");
                     targetNotSeenCount = 0;
                     stepCounter.increment();
@@ -209,8 +213,66 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 }
                 break;
             case 4:
+                setDrivePowers(0, 0.25, 0);
+                telemetry.addData("Moving to", "position 3");
+                stepCounter.increment();
+                break;
+            case 5:
+                if (elapsedTime.seconds() >= 0.7) {
+                    telemetry.addData("Moving to", "position 3");
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case 6:
                 telemetry.addData("SkystonePos", "" + skystonePosition);
                 telemetry.addData("target visible", "" + targetVisible);
+                stepCounter.increment();
+                break;
+            case 7:
+                if (elapsedTime.seconds() >= 0.5) {
+                    stepCounter.increment();
+                }
+                break;
+            case 8:
+                strafeRight();
+                stepCounter.increment();
+                break;
+            case 9:
+                if (elapsedTime.seconds() >= 0.65) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case 10:
+                frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+                stepCounter.increment();
+                break;
+            case 11:
+                if (elapsedTime.seconds() >= 0.6) {
+                    stepCounter.increment();
+                }
+                break;
+            case 12:
+                strafeLeft();
+                //strafe left curves diagonally down a lot
+                stepCounter.increment();
+                break;
+            case 13:
+                if (elapsedTime.seconds() >= 0.5) {
+                    stopMoving();
+                    //stepCounter.increment();
+                }
+                break;
+            case 14:
+                setDrivePowers(0,0.5,0);
+                stepCounter.increment();
+                break;
+            case 15:
+                if (elapsedTime.seconds() >= 1.0) {
+                    stopMoving();
+
+                }
                 break;
             default:
                 telemetry.addData("Status", "Something Went Wrong");
