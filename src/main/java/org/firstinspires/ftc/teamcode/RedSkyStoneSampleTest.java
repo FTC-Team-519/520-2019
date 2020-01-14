@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.Blinker;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
@@ -149,8 +150,8 @@ public class RedSkyStoneSampleTest extends BaseAuto{
         super.start();
         targetsSkyStone.activate();
         targetNotSeenCount = 0;
-        stepCounter.set(0);
-        //stepCounter.set(-10);
+        //stepCounter.set(0);
+        stepCounter.set(-6);
     }
 
     @Override
@@ -172,6 +173,36 @@ public class RedSkyStoneSampleTest extends BaseAuto{
             }
         }
         switch (stepCounter.getStep()) {
+            case -6:
+                setDrivePowers(0,0.25,0);
+                stepCounter.increment();
+                break;
+            case -5:
+                if (elapsedTime.seconds() >= 1.25) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case -4:
+                if (elapsedTime.seconds() >= 0.5) {
+                    stepCounter.increment();
+                }
+                break;
+            case -3:
+                setDrivePowers(0,0,-0.45);
+                stepCounter.increment();
+                break;
+            case -2:
+                if (elapsedTime.seconds() >= 0.75) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case -1:
+                if (elapsedTime.seconds() >= 2.0) {
+                    stepCounter.increment();
+                }
+                break;
             case 0:
                 if (targetVisible) {
                     telemetry.addData("I saw it", "it was there");
@@ -192,7 +223,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 2:
-                if (elapsedTime.seconds() >= 0.7) {
+                if (elapsedTime.seconds() >= 0.6) {
                     telemetry.addData("Moving to", "position 2");
                     stopMoving();
                     stepCounter.increment();
@@ -230,7 +261,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 7:
-                if (elapsedTime.seconds() >= 0.5) {
+                if (elapsedTime.seconds() >= 0.50) {
                     stepCounter.increment();
                 }
                 break;
@@ -239,7 +270,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 9:
-                if (elapsedTime.seconds() >= 0.65) {
+                if (elapsedTime.seconds() >= 0.55) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -249,7 +280,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 11:
-                if (elapsedTime.seconds() >= 0.6) {
+                if (elapsedTime.seconds() >= 1.0) {
                     stepCounter.increment();
                 }
                 break;
@@ -259,13 +290,13 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 13:
-                if (elapsedTime.seconds() >= 0.5) {
+                if (elapsedTime.seconds() >= 0.50) {
                     stopMoving();
                     //stepCounter.increment();
                 }
                 break;
             case 14:
-                setDrivePowers(0,0.5,0);
+                setDrivePowers(0,0.50,0);
                 stepCounter.increment();
                 break;
             case 15:
