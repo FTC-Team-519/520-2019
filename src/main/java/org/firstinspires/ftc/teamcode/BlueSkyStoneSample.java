@@ -19,8 +19,8 @@ import static org.firstinspires.ftc.robotcore.external.navigation.AxesOrder.XYZ;
 import static org.firstinspires.ftc.robotcore.external.navigation.AxesReference.EXTRINSIC;
 import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection.BACK;
 
-@Autonomous(name = "RedSkyStoneSampleTest", group = "testing")
-public class RedSkyStoneSampleTest extends BaseAuto{
+@Autonomous(name = "BlueSkyStone", group = "Testing")
+public class BlueSkyStoneSample extends BaseAuto{
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -55,6 +55,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
     @Override
     public void init() {
         super.init();
+
         //vuforia = new ConceptVuforiaSkyStoneNavigationWebcam();
         /*
          * Retrieve the camera we are to use.
@@ -147,17 +148,19 @@ public class RedSkyStoneSampleTest extends BaseAuto{
     @Override
     public void start() {
         super.start();
+
         targetsSkyStone.activate();
         targetNotSeenCount = 0;
         //stepCounter.set(0);
         stepCounter.set(-10);
     }
 
+
     @Override
     public void loop() {
         targetVisible = false;
         for (VuforiaTrackable trackable : allTrackables) {
-            if (((VuforiaTrackableDefaultListener)trackable.getListener()).isVisible()) {
+            if (((VuforiaTrackableDefaultListener) trackable.getListener()).isVisible()) {
                 telemetry.addData("Visible Target", trackable.getName());
                 targetVisible = true;
 
@@ -176,7 +179,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.set(15);
                 break;
             case -6:
-                setDrivePowers(0,0.25,0);
+                setDrivePowers(0,-0.25,0);
                 stepCounter.increment();
                 break;
             case -5:
@@ -191,7 +194,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 }
                 break;
             case -3:
-                setDrivePowers(0,0,-0.45);
+                setDrivePowers(0,0,0.45);
                 stepCounter.increment();
                 break;
             case -2:
@@ -202,7 +205,8 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 break;
             case -1:
                 if (elapsedTime.seconds() >= 2.0) {
-                    stepCounter.increment();
+                    //stepCounter.increment();
+                    telemetry.addData("Skyblock visible Status", "" + targetVisible);
                 }
                 break;
             case 0:
@@ -393,8 +397,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 break;
         }
         telemetry.update();
-    }
-
+        }
     private double dragBlockAcrossFieldDuration() {
         double duration = 0.0;
 
