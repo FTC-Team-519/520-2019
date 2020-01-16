@@ -152,7 +152,7 @@ public class BlueSkyStoneSample extends BaseAuto{
         targetsSkyStone.activate();
         targetNotSeenCount = 0;
         //stepCounter.set(0);
-        stepCounter.set(-10);
+        stepCounter.set(-6);
     }
 
 
@@ -183,7 +183,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case -5:
-                if (elapsedTime.seconds() >= 1.25) {
+                if (elapsedTime.seconds() >= 1.1) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -205,7 +205,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 break;
             case -1:
                 if (elapsedTime.seconds() >= 2.0) {
-                    //stepCounter.increment();
+                    stepCounter.increment();
                     telemetry.addData("Skyblock visible Status", "" + targetVisible);
                 }
                 break;
@@ -224,12 +224,12 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 1:
-                setDrivePowers(0, 0.25, 0);
+                setDrivePowers(0, -0.25, 0);
                 telemetry.addData("Moving to", "position 2");
                 stepCounter.increment();
                 break;
             case 2:
-                if (elapsedTime.seconds() >= 0.6) {
+                if (elapsedTime.seconds() >= 0.7) {
                     telemetry.addData("Moving to", "position 2");
                     stopMoving();
                     stepCounter.increment();
@@ -250,7 +250,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 4:
-                setDrivePowers(0, 0.25, 0);
+                setDrivePowers(0, -0.25, 0);
                 telemetry.addData("Moving to", "position 3");
                 stepCounter.increment();
                 break;
@@ -276,13 +276,13 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 9:
-                if (elapsedTime.seconds() >= 0.55) {
+                if (elapsedTime.seconds() >= 0.6) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
             case 10:
-                frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+                backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
                 stepCounter.increment();
                 break;
             case 11:
@@ -298,7 +298,7 @@ public class BlueSkyStoneSample extends BaseAuto{
             case 13:
                 if (elapsedTime.seconds() >= 0.50) {
                     stopMoving();
-                    //stepCounter.increment();
+                    stepCounter.increment();
                 }
                 break;
             case 14:
@@ -328,7 +328,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 19:
-                setDrivePowers(0,-0.50,0);
+                setDrivePowers(0,0.50,0);
                 stepCounter.increment();
                 break;
             case 20:
