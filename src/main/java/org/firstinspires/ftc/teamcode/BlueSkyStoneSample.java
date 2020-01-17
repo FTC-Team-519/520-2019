@@ -21,6 +21,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Autonomous(name = "BlueSkyStone", group = "Testing")
 public class BlueSkyStoneSample extends BaseAuto{
+    /**
+     * Set up the Robot next to the control box
+     * 13.6 - 13.7 is the ideal battery level
+     */
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -183,7 +187,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case -5:
-                if (elapsedTime.seconds() >= 1.1) {
+                if (elapsedTime.seconds() >= 1.0) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -198,22 +202,32 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case -2:
-                if (elapsedTime.seconds() >= 0.75) {
+                if (elapsedTime.seconds() >= 0.7) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
             case -1:
+                setDrivePowers(0,-0.250,0);
+                stepCounter.increment();
+                break;
+            case 0:
+                if (elapsedTime.seconds() >= 0.05) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case 1:
                 if (elapsedTime.seconds() >= 2.0) {
                     stepCounter.increment();
                     telemetry.addData("Skyblock visible Status", "" + targetVisible);
                 }
                 break;
-            case 0:
+            case 2:
                 if (targetVisible) {
                     telemetry.addData("I saw it", "it was there");
                     skystonePosition = 1;
-                    stepCounter.set(6);
+                    stepCounter.set(8);
                 } else if (elapsedTime.seconds() >= 2.0) {
                     telemetry.addLine("Never seen for first position");
                     targetNotSeenCount = 0;
@@ -223,23 +237,23 @@ public class BlueSkyStoneSample extends BaseAuto{
                     ++targetNotSeenCount;
                 }
                 break;
-            case 1:
+            case 3:
                 setDrivePowers(0, -0.25, 0);
                 telemetry.addData("Moving to", "position 2");
                 stepCounter.increment();
                 break;
-            case 2:
-                if (elapsedTime.seconds() >= 0.7) {
+            case 4:
+                if (elapsedTime.seconds() >= 0.6) {
                     telemetry.addData("Moving to", "position 2");
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 3:
+            case 5:
                 if (targetVisible) {
                     telemetry.addData("I saw it", "2nd position");
                     skystonePosition = 2;
-                    stepCounter.set(6);
+                    stepCounter.set(8);
                 } else if (elapsedTime.seconds() >= 2.0) {
                     telemetry.addLine("Never seen for second position");
                     targetNotSeenCount = 0;
@@ -249,145 +263,146 @@ public class BlueSkyStoneSample extends BaseAuto{
                     ++targetNotSeenCount;
                 }
                 break;
-            case 4:
+            case 6:
                 setDrivePowers(0, -0.25, 0);
                 telemetry.addData("Moving to", "position 3");
                 stepCounter.increment();
                 break;
-            case 5:
-                if (elapsedTime.seconds() >= 0.7) {
+            case 7:
+                if (elapsedTime.seconds() >= 0.67) {
                     telemetry.addData("Moving to", "position 3");
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 6:
+            case 8:
+                //send here after skystone is found
                 telemetry.addData("SkystonePos", "" + skystonePosition);
                 telemetry.addData("target visible", "" + targetVisible);
                 stepCounter.increment();
                 break;
-            case 7:
+            case 9:
                 if (elapsedTime.seconds() >= 0.50) {
                     stepCounter.increment();
                 }
                 break;
-            case 8:
+            case 10:
                 strafeRight();
                 stepCounter.increment();
                 break;
-            case 9:
+            case 11:
                 if (elapsedTime.seconds() >= 0.6) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 10:
+            case 12:
                 backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_DOWN);
                 stepCounter.increment();
                 break;
-            case 11:
-                if (elapsedTime.seconds() >= 1.0) {
-                    stepCounter.increment();
-                }
-                break;
-            case 12:
-                strafeLeft();
-                //strafe left curves diagonally down a lot
-                stepCounter.increment();
-                break;
             case 13:
-                if (elapsedTime.seconds() >= 0.50) {
-                    stopMoving();
+                if (elapsedTime.seconds() >= 1.0) {
                     stepCounter.increment();
                 }
                 break;
             case 14:
-                setDrivePowers(0,0.50,0);
+                strafeLeft();
+                //strafe left curves diagonally down a lot
                 stepCounter.increment();
                 break;
             case 15:
-                if (elapsedTime.seconds() >= 1.0) {
+                if (elapsedTime.seconds() >= 0.35) {
                     stopMoving();
-                    frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
                     stepCounter.increment();
                 }
                 break;
             case 16:
-                if (elapsedTime.seconds() >= 0.500) {
-                    stepCounter.increment();
-                }
-                break;
-            case 17:
-                setDrivePowers(0,0,-0.25);
-                stepCounter.increment();
-                break;
-            case 18:
-                if (elapsedTime.seconds() >= 0.2) {
-                    stopMoving();
-                    stepCounter.increment();
-                }
-                break;
-            case 19:
                 setDrivePowers(0,0.50,0);
                 stepCounter.increment();
                 break;
-            case 20:
-                // Drive across the field
-                skystonePosition = 3;
+            case 17:
                 if (elapsedTime.seconds() >= dragBlockAcrossFieldDuration()) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
+            case 18:
+                if (elapsedTime.seconds() >= 0.500) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case 19:
+                //setDrivePowers(0,0,-0.25);
+                //stepCounter.increment();
+                break;
+            case 20:
+                if (elapsedTime.seconds() >= 0.2) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
             case 21:
+                setDrivePowers(0,0.50,0);
+                stepCounter.increment();
+                break;
+            case 22:
+                // Drive across the field
+                skystonePosition = 3;
+                if (elapsedTime.seconds() >= 0) {
+                    stopMoving();
+                    stepCounter.increment();
+                }
+                break;
+            case 23:
                 if (elapsedTime.seconds() >= 0.5000) {
                     stepCounter.increment();
                 }
                 break;
-            case 22:
+            case 24:
                 setDrivePowers(0.25,0,0);
                 stepCounter.increment();
                 break;
-            case 23:
+            case 25:
                 if (elapsedTime.seconds() >= 1.0) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 24:
+            case 26:
                 if (elapsedTime.seconds() >= 0.50000) {
                     stepCounter.increment();
                 }
                 break;
-            case 25:
+            case 27:
                 frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
                 stepCounter.increment();
                 break;
-            case 26:
+            case 28:
                 if (elapsedTime.seconds() >= 0.6) {
                     stepCounter.increment();
                 }
                 break;
-            case 27:
+            case 29:
                 setDrivePowers(0,0.250,0);
                 stepCounter.increment();
                 break;
-            case 28:
+            case 30:
                 if (elapsedTime.seconds() >= 2.0) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 29:
+            case 31:
                 if (elapsedTime.seconds() >= 0.500000) {
                     stepCounter.increment();
                 }
                 break;
-            case 30:
+            case 32:
                 setDrivePowers(0.250,0,0);
                 stepCounter.increment();
                 break;
-            case 31:
+            case 33:
                 if (elapsedTime.seconds() >= 0.8) {
                     stopMoving();
                 }
@@ -396,6 +411,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 telemetry.addData("Status", "Something Went Wrong");
                 break;
         }
+        telemetry.addData("Step", "" + stepCounter.getStep());
         telemetry.update();
         }
     private double dragBlockAcrossFieldDuration() {
@@ -409,7 +425,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 duration = 1.8;
                 break;
             case 3:
-                duration = 2.0;
+                duration = 1.6;
                 break;
             default:
                 break;
