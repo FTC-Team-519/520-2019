@@ -11,6 +11,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackable;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackableDefaultListener;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
 
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 
 @Autonomous(name = "RedSkyStoneSampleTest", group = "testing")
 public class RedSkyStoneSampleTest extends BaseAuto{
+
+    /**
+     * Line the Bot up in between the tape lines
+     */
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
     private static final VuforiaLocalizer.CameraDirection CAMERA_CHOICE = BACK;
@@ -150,7 +155,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
         targetsSkyStone.activate();
         targetNotSeenCount = 0;
         //stepCounter.set(0);
-        stepCounter.set(-10);
+        stepCounter.set(-6);
     }
 
     @Override
@@ -251,7 +256,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 5:
-                if (elapsedTime.seconds() >= 0.7) {
+                if (elapsedTime.seconds() >= 0.4) {
                     telemetry.addData("Moving to", "position 3");
                     stopMoving();
                     stepCounter.increment();
@@ -272,7 +277,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 9:
-                if (elapsedTime.seconds() >= 0.55) {
+                if (elapsedTime.seconds() >= 0.58) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -292,19 +297,19 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 13:
-                if (elapsedTime.seconds() >= 0.50) {
+                if (elapsedTime.seconds() >= 0.55) {
                     stopMoving();
-                    //stepCounter.increment();
+                    stepCounter.increment();
                 }
                 break;
             case 14:
-                setDrivePowers(0,0.50,0);
+                //setDrivePowers(0,0.50,0);
                 stepCounter.increment();
                 break;
             case 15:
                 if (elapsedTime.seconds() >= 1.0) {
                     stopMoving();
-                    frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
+                    //frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_DOWN);
                     stepCounter.increment();
                 }
                 break;
@@ -314,53 +319,53 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 }
                 break;
             case 17:
-                setDrivePowers(0,0,-0.25);
+                setDrivePowers(-0.03,-0.50,0);
                 stepCounter.increment();
                 break;
             case 18:
-                if (elapsedTime.seconds() >= 0.2) {
-                    stopMoving();
-                    stepCounter.increment();
-                }
-                break;
-            case 19:
-                setDrivePowers(0,-0.50,0);
-                stepCounter.increment();
-                break;
-            case 20:
                 // Drive across the field
-                skystonePosition = 3;
+                //skystonePosition = 3;
                 if (elapsedTime.seconds() >= dragBlockAcrossFieldDuration()) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 21:
+            case 19:
                 if (elapsedTime.seconds() >= 0.5000) {
                     stepCounter.increment();
                 }
                 break;
-            case 22:
+            case 20:
                 setDrivePowers(0.25,0,0);
                 stepCounter.increment();
                 break;
-            case 23:
-                if (elapsedTime.seconds() >= 1.0) {
+            case 21:
+                if (elapsedTime.seconds() >= 1.5) {
                     stopMoving();
                     stepCounter.increment();
                 }
                 break;
-            case 24:
+            case 22:
                 if (elapsedTime.seconds() >= 0.50000) {
                     stepCounter.increment();
                 }
                 break;
-            case 25:
+            case 23:
                 frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
                 stepCounter.increment();
                 break;
-            case 26:
+            case 24:
                 if (elapsedTime.seconds() >= 0.6) {
+                    stepCounter.increment();
+                }
+                break;
+            case 25:
+                setDrivePowers(-0.25,0,0);
+                stepCounter.increment();
+                break;
+            case 26:
+                if (elapsedTime.seconds() >= 0.5) {
+                    stopMoving();
                     stepCounter.increment();
                 }
                 break;
@@ -369,7 +374,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 28:
-                if (elapsedTime.seconds() >= 2.0) {
+                if (elapsedTime.seconds() >= 1.5) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -384,7 +389,7 @@ public class RedSkyStoneSampleTest extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 31:
-                if (elapsedTime.seconds() >= 0.8) {
+                if (elapsedTime.seconds() >= 1.0) {
                     stopMoving();
                 }
                 break;
@@ -400,13 +405,13 @@ public class RedSkyStoneSampleTest extends BaseAuto{
 
         switch (skystonePosition) {
             case 1:
-                duration = 1.5;
+                duration = 1.2;
                 break;
             case 2:
                 duration = 1.8;
                 break;
             case 3:
-                duration = 2.0;
+                duration = 1.7;
                 break;
             default:
                 break;

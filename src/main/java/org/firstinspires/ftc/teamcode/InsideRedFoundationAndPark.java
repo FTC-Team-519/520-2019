@@ -1,8 +1,9 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
-
+@Disabled
 @Autonomous(name = "InsideRedFoundationAndPark", group = "Testing")
 public class InsideRedFoundationAndPark extends BaseAuto {
 

@@ -22,8 +22,10 @@ import static org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocaliz
 @Autonomous(name = "BlueSkyStone", group = "Testing")
 public class BlueSkyStoneSample extends BaseAuto{
     /**
-     * Set up the Robot next to the control box
-     * 13.6 - 13.7 is the ideal battery level
+     * Set up the Robot on the inside plastic panel
+     * 13.7 - 13.85 is the ideal battery level for the first block
+     * The other blocks are a little easier to deal with
+     * IF YOU HAVE TO USE A BATTERY THAT OVER THE IDEAL THEN PLACE THE ROBOT ON THE LINE CLOSER TO THE BRIDGE AS IT WILL WORK BETTER
      */
 
     // IMPORTANT: If you are using a USB WebCam, you must select CAMERA_CHOICE = BACK; and PHONE_IS_PORTRAIT = false;
@@ -180,6 +182,7 @@ public class BlueSkyStoneSample extends BaseAuto{
         }
         switch (stepCounter.getStep()) {
             case -10:
+                //backing to the other side of field test step
                 stepCounter.set(15);
                 break;
             case -6:
@@ -208,11 +211,11 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case -1:
-                setDrivePowers(0,-0.250,0);
+                setDrivePowers(0,-0.2,0);
                 stepCounter.increment();
                 break;
             case 0:
-                if (elapsedTime.seconds() >= 0.05) {
+                if (elapsedTime.seconds() >= 0.15) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -243,7 +246,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 4:
-                if (elapsedTime.seconds() >= 0.6) {
+                if (elapsedTime.seconds() >= 0.56) {
                     telemetry.addData("Moving to", "position 2");
                     stopMoving();
                     stepCounter.increment();
@@ -269,7 +272,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 7:
-                if (elapsedTime.seconds() >= 0.67) {
+                if (elapsedTime.seconds() >= 0.45) {
                     telemetry.addData("Moving to", "position 3");
                     stopMoving();
                     stepCounter.increment();
@@ -291,7 +294,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 11:
-                if (elapsedTime.seconds() >= 0.6) {
+                if (elapsedTime.seconds() >= 0.62) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -317,7 +320,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 16:
-                setDrivePowers(0,0.50,0);
+                setDrivePowers(0,0.250,0);
                 stepCounter.increment();
                 break;
             case 17:
@@ -329,12 +332,12 @@ public class BlueSkyStoneSample extends BaseAuto{
             case 18:
                 if (elapsedTime.seconds() >= 0.500) {
                     stopMoving();
-                    stepCounter.increment();
+                     stepCounter.increment();
                 }
                 break;
             case 19:
                 //setDrivePowers(0,0,-0.25);
-                //stepCounter.increment();
+                stepCounter.increment();
                 break;
             case 20:
                 if (elapsedTime.seconds() >= 0.2) {
@@ -343,12 +346,10 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 21:
-                setDrivePowers(0,0.50,0);
+                setDrivePowers(0,-0.500,0);
                 stepCounter.increment();
                 break;
             case 22:
-                // Drive across the field
-                skystonePosition = 3;
                 if (elapsedTime.seconds() >= 0) {
                     stopMoving();
                     stepCounter.increment();
@@ -364,7 +365,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 25:
-                if (elapsedTime.seconds() >= 1.0) {
+                if (elapsedTime.seconds() >= 1.00) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -375,7 +376,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 27:
-                frontExteriorGrabber.setPosition(FRONT_EXTERIOR_GRABBER_UP);
+                backExteriorGrabber.setPosition(BACK_EXTERIOR_GRABBER_UP);
                 stepCounter.increment();
                 break;
             case 28:
@@ -384,11 +385,11 @@ public class BlueSkyStoneSample extends BaseAuto{
                 }
                 break;
             case 29:
-                setDrivePowers(0,0.250,0);
+                setDrivePowers(0,-0.250,0);
                 stepCounter.increment();
                 break;
             case 30:
-                if (elapsedTime.seconds() >= 2.0) {
+                if (elapsedTime.seconds() >= 1.000) {
                     stopMoving();
                     stepCounter.increment();
                 }
@@ -403,7 +404,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 stepCounter.increment();
                 break;
             case 33:
-                if (elapsedTime.seconds() >= 0.8) {
+                if (elapsedTime.seconds() >= 1.0) {
                     stopMoving();
                 }
                 break;
@@ -412,6 +413,7 @@ public class BlueSkyStoneSample extends BaseAuto{
                 break;
         }
         telemetry.addData("Step", "" + stepCounter.getStep());
+        telemetry.addData("SkyStone Seen", "" + targetVisible);
         telemetry.update();
         }
     private double dragBlockAcrossFieldDuration() {
@@ -419,13 +421,13 @@ public class BlueSkyStoneSample extends BaseAuto{
 
         switch (skystonePosition) {
             case 1:
-                duration = 1.5;
+                duration = 3.1;
                 break;
             case 2:
-                duration = 1.8;
+                duration = 3.6;
                 break;
             case 3:
-                duration = 1.6;
+                duration = 4.1;
                 break;
             default:
                 break;
